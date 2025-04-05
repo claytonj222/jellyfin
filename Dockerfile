@@ -1,8 +1,9 @@
 FROM jellyfin/jellyfin:latest
 
-# Install additional dependencies
-RUN git clone https://github.com/CCExtractor/ccextractor.git /opt/ccextractor
+RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" >> /etc/apt/sources.list && \
+    apt-get update
 
-# Build CCExtractor
-WORKDIR /opt/ccextractor/linux
-RUN make clean && make
+RUN apt-get update && apt-get install -y \
+  ccextractor \
+  comskip \
+  && rm -rf /var/lib/apt/lists/*
